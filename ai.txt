@@ -1,0 +1,5 @@
+AI Use Statement
+
+I used ChatGPT to help revise my project scope after discovering that Movebank tracking data was not reliably available without login or study permissions. ChatGPT helped me compare API feasibility, refocus the project on public iNaturalist observations, design the Flask app structure, and generate draft code for the Flask routes, API helper functions, Jinja templates, CSS, and Leaflet map JavaScript.
+
+I reviewed and modified the generated code to match my final project goals, including the selected eight bird species, the Seattle/Puget Sound/Western Washington filters, the visual design direction, and the required project explanation. I am responsible for understanding the code I submit, including how the Flask routes handle form input, how urllib requests data from iNaturalist, how JSON is parsed into Observation objects, and how Leaflet receives map point data from the Jinja template.

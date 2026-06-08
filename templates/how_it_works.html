@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}How WildPath works{% endblock %}
+
+{% block content %}
+<section class="hero hero-center">
+  <h1>How WildPath works</h1>
+  <p class="hero-subtitle">Explore Seattle bird observations in three simple steps.</p>
+  <p class="hero-copy">
+    WildPath uses public iNaturalist observations to help people discover when and where
+    birds are being seen around Seattle and the Pacific Northwest.
+  </p>
+</section>
+
+<section class="steps-wrapper">
+  <article class="step-card card">
+    <div class="step-number">1</div>
+    <div class="step-text">
+      <h2>Choose what to explore</h2>
+      <p>Pick a bird species and narrow the search by place and time. WildPath sends a live request to iNaturalist observations.</p>
+    </div>
+    <div class="mini-panel">
+      <h3>Find bird</h3>
+      <div class="mini-form-grid">
+        <div><span>Bird species</span><div class="mini-input">All species</div></div>
+        <div><span>Region</span><div class="mini-input">Seattle, WA & nearby</div></div>
+        <div><span>Year</span><div class="mini-input">2024</div></div>
+        <div><span>Month</span><div class="mini-input">All months</div></div>
+      </div>
+      <div class="mini-button">Find bird</div>
+    </div>
+  </article>
+
+  <div class="step-arrow">↓</div>
+
+  <article class="step-card card step-card-map">
+    <div class="step-number">2</div>
+    <div class="step-text">
+      <h2>View the map and summary</h2>
+      <p>See where observations cluster and get a quick snapshot of seasonal patterns.</p>
+    </div>
+    <div class="mini-map">
+      <div class="fake-control">+<br>−</div>
+      <span class="pin pin-one"></span>
+      <span class="pin pin-two"></span>
+      <span class="pin pin-three"></span>
+      <strong>Seattle</strong>
+    </div>
+    <div class="mini-summary-stack">
+      <div class="mini-summary"><span>📆</span><p>Most common month<br><strong>May</strong></p></div>
+      <div class="mini-summary"><span>📸</span><p>Observations<br><strong>12,458</strong></p></div>
+      <div class="mini-summary"><span>📝</span><p>Date range<br><strong>Jan 1 – Dec 31, 2024</strong></p></div>
+    </div>
+  </article>
+
+  <div class="step-arrow">↓</div>
+
+  <article class="step-card card">
+    <div class="step-number">3</div>
+    <div class="step-text">
+      <h2>Browse recent observations</h2>
+      <p>Review recent sightings with photos, dates, and locations so birders can explore what has been seen lately.</p>
+    </div>
+    <div class="mini-observation-row">
+  <div class="mini-observation">
+    <img
+      class="mini-photo-img"
+      src="{{ url_for('static', filename='img/bald-eagle.jpg') }}"
+      alt="Bald Eagle"
+    >
+    <strong>Bald Eagle</strong>
+    <p>May 5, 2024</p>
+  </div>
+
+  <div class="mini-observation">
+    <img
+      class="mini-photo-img"
+      src="{{ url_for('static', filename='img/mallard.jpg') }}"
+      alt="Mallard"
+    >
+    <strong>Mallard</strong>
+    <p>May 3, 2024</p>
+  </div>
+
+  <div class="mini-observation">
+    <img
+      class="mini-photo-img"
+      src="{{ url_for('static', filename='img/great-blue-heron.jpg') }}"
+      alt="Great Blue Heron"
+    >
+    <strong>Great Blue Heron</strong>
+    <p>May 2, 2024</p>
+  </div>
+
+  <div class="mini-observation">
+    <img
+      class="mini-photo-img"
+      src="{{ url_for('static', filename='img/annas-hummingbird.jpg') }}"
+      alt="Anna's Hummingbird"
+    >
+    <strong>Anna's Hummingbird</strong>
+    <p>Apr 30, 2024</p>
+  </div>
+</div>
+  </article>
+</section>
+
+<div class="data-note">
+  <p>Note: WildPath uses public iNaturalist observations. These are community-submitted bird sightings, not GPS tracking paths of individual birds.</p>
+  <p class="credit-note">Built by Yixi (Ici) Su 2026, with love, matcha and my friend ChatGPT٩(๑❛ᴗ❛๑)۶</p>
+</div>
+{% endblock %}

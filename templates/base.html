@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}WildPath{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    >
+
+    <!-- Leaflet CSS must load before your own stylesheet. -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      crossorigin=""
+    >
+
+    <!-- Extra fallback in case Leaflet CSS does not fully load. -->
+    <style>
+      .leaflet-container {
+        overflow: hidden;
+      }
+
+      .leaflet-pane,
+      .leaflet-tile,
+      .leaflet-marker-icon,
+      .leaflet-marker-shadow,
+      .leaflet-tile-container,
+      .leaflet-pane > svg,
+      .leaflet-pane > canvas,
+      .leaflet-zoom-box,
+      .leaflet-image-layer,
+      .leaflet-layer {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      .leaflet-tile {
+        width: 256px;
+        height: 256px;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      .leaflet-map-pane {
+        z-index: 400;
+      }
+
+      .leaflet-tile-pane {
+        z-index: 200;
+      }
+
+      .leaflet-overlay-pane {
+        z-index: 400;
+      }
+
+      .leaflet-shadow-pane {
+        z-index: 500;
+      }
+
+      .leaflet-marker-pane {
+        z-index: 600;
+      }
+
+      .leaflet-tooltip-pane {
+        z-index: 650;
+      }
+
+      .leaflet-popup-pane {
+        z-index: 700;
+      }
+
+      .leaflet-control {
+        position: relative;
+        z-index: 800;
+        pointer-events: auto;
+      }
+
+      .leaflet-top,
+      .leaflet-bottom {
+        position: absolute;
+        z-index: 1000;
+        pointer-events: none;
+      }
+
+      .leaflet-top {
+        top: 0;
+      }
+
+      .leaflet-right {
+        right: 0;
+      }
+
+      .leaflet-bottom {
+        bottom: 0;
+      }
+
+      .leaflet-left {
+        left: 0;
+      }
+
+      .leaflet-control-zoom {
+        background: white;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+      }
+
+      .leaflet-control-zoom a {
+        display: block;
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        text-align: center;
+        text-decoration: none;
+        color: #1f2a24;
+        background: #fff;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .leaflet-control-attribution {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 2px 6px;
+        font-size: 11px;
+      }
+    </style>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+    <header class="site-nav">
+      <a class="brand" href="{{ url_for('explore') }}" aria-label="WildPath explore page">
+        <span class="brand-mark">◒</span>
+        <span class="brand-name">WildPath</span>
+        <span class="brand-tagline">Washington bird finder \(๑・８・๑)/</span>
+      </a>
+
+      <nav class="nav-tabs" aria-label="Main navigation">
+        <a
+          class="nav-link {% if page == 'explore' %}active{% endif %}"
+          href="{{ url_for('explore') }}"
+        >
+          Explore
+        </a>
+        <a
+          class="nav-link {% if page == 'how' %}active{% endif %}"
+          href="{{ url_for('how_it_works') }}"
+        >
+          How it works
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Leaflet JS must load before map.js. -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      crossorigin=""
+    ></script>
+
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

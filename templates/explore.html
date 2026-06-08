@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}WildPath · Seattle bird finder{% endblock %}
+
+{% block content %}
+<section class="hero hero-left">
+  <h1>WildPath</h1>
+  <p class="hero-subtitle">Seattle bird observations, made birding easier.</p>
+  <p class="hero-copy">
+    WildPath uses public iNaturalist observations to help people explore
+    seasonal bird sighting patterns around Seattle and the Pacific Northwest.
+  </p>
+</section>
+
+<section id="explore-results" class="explore-layout">
+  <aside class="filter-card card" aria-label="Bird search filters">
+    <h2>Find bird</h2>
+
+    <form action="{{ url_for('explore') }}#explore-results" method="get">
+      <label for="bird">Bird species</label>
+      <select id="bird" name="bird">
+        {% for bird in birds %}
+          <option value="{{ bird.key }}" {% if bird.key == selected_bird.key %}selected{% endif %}>
+            {{ bird.name }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <label for="region">Region</label>
+      <select id="region" name="region">
+        {% for region in regions %}
+          <option value="{{ region.key }}" {% if region.key == selected_region.key %}selected{% endif %}>
+            {{ region.name }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <div class="form-row">
+        <div>
+          <label for="year">Year</label>
+          <select id="year" name="year">
+            {% for year in years %}
+              <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>
+                {% if year == "" %}All years{% else %}{{ year }}{% endif %}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="month">Month</label>
+          <select id="month" name="month">
+            {% for month in months %}
+              <option value="{{ month.value }}" {% if month.value == selected_month %}selected{% endif %}>
+                {{ month.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="primary-button">Find bird</button>
+    </form>
+
+    <div class="selected-note">
+      <p class="selected-common">{{ selected_bird.name }}</p>
+      <p><em>{{ selected_bird.scientific }}</em></p>
+      <p>{{ selected_region.description }}</p>
+
+      <div class="bird-info-card">
+        <img
+          src="{{ url_for('static', filename=selected_bird_photo) }}"
+          alt="Photo of {{ selected_bird.name }}"
+        >
+      </div>
+    </div>
+  </aside>
+
+  <section class="map-area">
+    {% if error_message != "" %}
+      <div class="error-message">{{ error_message }}</div>
+    {% endif %}
+
+    <div id="map" class="map-card" aria-label="Observation map"></div>
+
+    <div class="summary-grid">
+      <article class="summary-card card">
+        <div class="summary-icon">📆</div>
+        <div>
+          <p>Most common month</p>
+          <strong>{{ summary.common_month }}</strong>
+        </div>
+      </article>
+
+      <article class="summary-card card">
+        <div class="summary-icon">📸</div>
+        <div>
+          <p>Observations</p>
+          <strong>{{ summary.total_results }}</strong>
+        </div>
+      </article>
+
+      <article class="summary-card card">
+        <div class="summary-icon">📍</div>
+        <div>
+          <p>Mapped points</p>
+          <strong>{{ summary.mapped_points }}</strong>
+        </div>
+      </article>
+
+      <article class="summary-card card wide-summary">
+        <div class="summary-icon">📝</div>
+        <div>
+          <p>Date range</p>
+          <strong>{{ summary.date_range }}</strong>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>
+
+<section class="observations-section">
+  <div class="section-heading">
+    <h2>Recent Observations</h2>
+    <p>
+      Showing recent public iNaturalist observations for {{ selected_bird.name }} in {{ selected_region.name }}.
+    </p>
+  </div>
+
+  {% if observations | length == 0 %}
+    <div class="empty-state card">
+      <h3>No observations found</h3>
+      <p>Try choosing a different year, month, bird species, or region.</p>
+    </div>
+  {% else %}
+    <div class="observation-grid">
+      {% for observation in observations %}
+        <article class="observation-card card">
+          {% if observation.photo_url != "" %}
+            <img src="{{ observation.photo_url }}" alt="Photo of {{ observation.common_name }}">
+          {% else %}
+            <div class="photo-placeholder">No photo</div>
+          {% endif %}
+
+          <div class="observation-body">
+            <h3>{{ observation.common_name }}</h3>
+            <p>{{ observation.date_for_display() }}</p>
+            <p>{{ observation.place_guess }}</p>
+            <a href="{{ observation.uri }}" target="_blank" rel="noreferrer">
+              View on iNaturalist
+            </a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+<div class="data-note">
+  <p>Note: WildPath uses public iNaturalist observations. These are community-submitted bird sightings, not GPS tracking paths of individual birds.</p>
+  <p class="credit-note">Built by Yixi (Ici) Su 2026, with love, matcha and my friend ChatGPT٩(๑❛ᴗ❛๑)۶</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const mapPoints = {{ map_points | tojson }};
+  const mapCenter = [{{ selected_region.lat }}, {{ selected_region.lng }}];
+  const mapZoom = {{ selected_region.zoom }};
+</script>
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+{% endblock %}
